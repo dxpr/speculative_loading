@@ -1,0 +1,5 @@
+speculative_loading.settings:
+  title: 'Speculative Loading'
+  route_name: speculative_loading.settings
+  base_route: system.performance_settings
+  weight: 10 

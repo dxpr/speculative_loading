@@ -1,0 +1,14 @@
+parameters:
+  level: 5
+  paths:
+    - src
+    - speculative_loading.module
+    - speculative_loading.install
+  drupal:
+    drupal_root: %currentWorkingDirectory%/../../..
+  ignoreErrors:
+    # PHPStan doesn't understand Drupal's hook system
+    - '#Call to static method alter\(\) on an unknown class Drupal\\Core\\Extension\\ModuleHandler.#'
+    - '#Call to static method t\(\) on an unknown class Drupal#'
+    - '#Function [a-zA-Z0-9\\_]+\(\) has no return type specified.#'
+    - '#Function [a-zA-Z0-9\\_]+\(\) has parameter \$[a-zA-Z0-9\\_]+ with no type specified.#' 

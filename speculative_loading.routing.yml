@@ -1,0 +1,7 @@
+speculative_loading.settings:
+  path: '/admin/config/development/performance/speculative-loading'
+  defaults:
+    _form: '\Drupal\speculative_loading\Form\SpeculativeLoadingSettingsForm'
+    _title: 'Speculative Loading Settings'
+  requirements:
+    _permission: 'administer site configuration' 

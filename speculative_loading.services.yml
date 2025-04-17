@@ -1,0 +1,8 @@
+services:
+  speculative_loading.url_pattern_prefixer:
+    class: Drupal\speculative_loading\UrlPattern\UrlPatternPrefixer
+    arguments: ['@config.factory', '@module_handler', '@file_url_generator']
+  
+  plugin.manager.speculation_rules:
+    class: Drupal\speculative_loading\Plugin\SpeculationRulesManager
+    arguments: ['@speculative_loading.url_pattern_prefixer', '@config.factory', '@current_user', '@container.namespaces', '@cache.discovery', '@module_handler'] 

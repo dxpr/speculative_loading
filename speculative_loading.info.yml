@@ -1,0 +1,8 @@
+name: Speculative Loading
+type: module
+description: 'Enables browsers to speculatively prerender or prefetch pages to achieve near-instant loads based on user interaction.'
+core_version_requirement: ^10.3 || ^11
+package: Performance
+configure: speculative_loading.settings
+dependencies:
+  - drupal:system 

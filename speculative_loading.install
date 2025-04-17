@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Speculative Loading module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function speculative_loading_uninstall() {
+  // Remove configuration.
+  \Drupal::configFactory()->getEditable('speculative_loading.settings')->delete();
+} 

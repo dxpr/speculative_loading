@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Provides speculation rules functionality.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function speculative_loading_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.speculative_loading':
+      return '<p>' . t('This module adds support for the Speculation Rules API, which allows defining rules by which certain URLs are dynamically prefetched or prerendered.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function speculative_loading_page_attachments(array &$attachments) {
+  // Get speculation rules.
+  /** @var \Drupal\speculative_loading\Plugin\SpeculationRulesManagerInterface $manager */
+  $manager = \Drupal::service('plugin.manager.speculation_rules');
+  $rules = $manager->getSpeculationRules();
+
+  // Add the speculation rules as inline JavaScript.
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#value' => json_encode($rules),
+      '#attributes' => [
+        'type' => 'speculationrules',
+      ],
+    ],
+    'speculation-rules',
+  ];
+} 

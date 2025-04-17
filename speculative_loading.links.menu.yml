@@ -1,0 +1,6 @@
+speculative_loading.settings:
+  title: 'Speculative Loading'
+  description: 'Configure Speculative Loading settings.'
+  parent: system.performance_settings
+  route_name: speculative_loading.settings
+  weight: 0 

@@ -1,0 +1,18 @@
+# Ignore vendor directory
+/vendor/
+
+# Ignore composer lock file
+composer.lock
+
+# Ignore PHPUnit result cache
+.phpunit.result.cache
+
+# Ignore environment and IDE files
+.idea/
+.vscode/
+.DS_Store
+
+# Ignore build artifacts
+node_modules/
+npm-debug.log
+yarn-error.log 
