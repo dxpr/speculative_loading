@@ -31,4 +31,4 @@ interface SpeculationRulesInterface extends PluginInspectionInterface {
    */
   public function getExcludePaths(string $mode): array;
 
-} 
+}

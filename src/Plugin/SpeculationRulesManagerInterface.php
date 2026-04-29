@@ -28,4 +28,4 @@ interface SpeculationRulesManagerInterface extends PluginManagerInterface {
    */
   public function getHrefExcludePaths(string $mode): array;
 
-} 
+}

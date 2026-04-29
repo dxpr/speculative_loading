@@ -14,6 +14,8 @@ A hook can be used to exclude certain URL paths from being eligible for prefetch
 
 The Speculation Rules API is a new web API, and the functionality used by the module is supported in Chromium-based browsers such as Chrome, Edge, or Opera using version 121 or above. Other browsers such as Safari and Firefox will ignore the functionality with no ill effects; they will simply not benefit from the speculative loading. Note that certain browser extensions may disable preloading by default.
 
+**Wider browser support is underway:** Firefox is actively working on implementing the Speculation Rules API. You can track their progress here: [Firefox Bug #1969396](https://bugzilla.mozilla.org/show_bug.cgi?id=1969396)
+
 * [Browser support for the Speculation Rules API in general](https://caniuse.com/mdn-html_elements_script_type_speculationrules)
 * [Information on document rules syntax support used by the module](https://developer.chrome.com/docs/web-platform/prerender-pages)
 

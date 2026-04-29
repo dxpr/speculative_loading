@@ -11,4 +11,4 @@
 function speculative_loading_uninstall() {
   // Remove configuration.
   \Drupal::configFactory()->getEditable('speculative_loading.settings')->delete();
-} 
+}

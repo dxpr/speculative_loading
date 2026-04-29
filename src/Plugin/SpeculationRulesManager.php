@@ -57,8 +57,8 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
     ConfigFactoryInterface $config_factory,
     AccountInterface $current_user,
     \Traversable $namespaces,
-    CacheBackendInterface $cache_backend = NULL,
-    ModuleHandlerInterface $module_handler = NULL
+    ?CacheBackendInterface $cache_backend = NULL,
+    ?ModuleHandlerInterface $module_handler = NULL,
   ) {
     parent::__construct(
       'Plugin/SpeculationRules',
@@ -67,11 +67,11 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
       'Drupal\speculative_loading\Plugin\SpeculationRulesInterface',
       'Drupal\speculative_loading\Annotation\SpeculationRules'
     );
-    
+
     if ($cache_backend) {
       $this->setCacheBackend($cache_backend, 'speculation_rules_plugins');
     }
-    
+
     $this->urlPatternPrefixer = $url_pattern_prefixer;
     $this->configFactory = $config_factory;
     $this->currentUser = $current_user;
@@ -168,4 +168,4 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
     return $all_paths;
   }
 
-} 
+}

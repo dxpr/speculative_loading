@@ -36,4 +36,4 @@ class SpeculationRules extends Plugin {
    */
   public $description;
 
-} 
+}

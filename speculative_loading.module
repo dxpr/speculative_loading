@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -39,4 +38,4 @@ function speculative_loading_page_attachments(array &$attachments) {
     ],
     'speculation-rules',
   ];
-} 
+}

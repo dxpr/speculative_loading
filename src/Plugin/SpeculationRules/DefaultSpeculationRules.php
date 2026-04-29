@@ -50,4 +50,4 @@ class DefaultSpeculationRules extends PluginBase implements SpeculationRulesInte
     return $exclude_paths;
   }
 
-} 
+}

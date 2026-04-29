@@ -2,10 +2,8 @@
 
 namespace Drupal\speculative_loading\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Speculative Loading settings.
@@ -31,7 +29,7 @@ class SpeculativeLoadingSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('speculative_loading.settings');
-    
+
     $form['description'] = [
       '#type' => 'markup',
       '#markup' => $this->t('This section allows you to control how URLs that your users navigate to are speculatively loaded to improve performance.'),
@@ -81,4 +79,4 @@ class SpeculativeLoadingSettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
   }
 
-} 
+}

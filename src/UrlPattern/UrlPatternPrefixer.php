@@ -5,8 +5,6 @@ namespace Drupal\speculative_loading\UrlPattern;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
-use Drupal\Core\Site\Settings;
-use Drupal\Core\Url;
 
 /**
  * Service for managing URL path patterns.
@@ -57,12 +55,12 @@ class UrlPatternPrefixer {
     ConfigFactoryInterface $config_factory,
     ModuleHandlerInterface $module_handler,
     FileUrlGeneratorInterface $file_url_generator,
-    array $contexts = []
+    array $contexts = [],
   ) {
     $this->configFactory = $config_factory;
     $this->moduleHandler = $module_handler;
     $this->fileUrlGenerator = $file_url_generator;
-    
+
     if (!empty($contexts)) {
       $this->contexts = array_map(
         function (string $path): string {
@@ -100,7 +98,7 @@ class UrlPatternPrefixer {
     // Handle special characters in context path.
     $context_path = $this->contexts[$context];
     $escaped_context_path = $context_path;
-    
+
     if (strcspn($context_path, ':?#') !== strlen($context_path)) {
       $escaped_context_path = '{' . substr($context_path, 0, -1) . '}/';
     }
@@ -121,18 +119,18 @@ class UrlPatternPrefixer {
    */
   protected function getDefaultContexts(): array {
     $base_path = $this->escapePatternString(base_path());
-    
+
     // Get base URLs for various path types.
     $site_config = $this->configFactory->get('system.site');
     $front_url = $site_config->get('page.front');
-    
+
     // Get file paths.
     $public_path = $this->escapePatternString($this->fileUrlGenerator->generateString('public://'));
-    
+
     // Module and theme paths.
     $module_path = $this->escapePatternString($base_path . $this->getRelativePath('module'));
     $theme_path = $this->escapePatternString($base_path . $this->getRelativePath('theme'));
-    
+
     return [
       'site' => $base_path,
       'files' => $public_path,
@@ -168,4 +166,4 @@ class UrlPatternPrefixer {
     return addcslashes($str, '+*?:{}()\\');
   }
 
-} 
+}
