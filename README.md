@@ -1,8 +1,10 @@
-> Part of [DXPR CMS](https://dxpr.com/c/marketing-cms): The AI-Powered Drupal CMS
+> **Speculative Loading** enables near-instant page navigation on Drupal sites by implementing the browser Speculation Rules API for intelligent prefetching and prerendering. Maintained by [DXPR](https://dxpr.com).
 >
-> [Documentation](https://dxpr.com/docs) | [Try Free](https://dxpr.com/try) | [dxpr.com](https://dxpr.com)
+> [Getting Started](https://dxpr.com/c/getting-started) |
+> [Pricing](https://dxpr.com/pricing) |
+> [Try Free Demo](https://dxpr.com/try)
 
-# Speculative Loading: Near-Instant Drupal Page Navigation with Prefetch and Prerender
+# Speculative Loading - Near-Instant Drupal Page Navigation with Prefetch and Prerender
 
 Enables browsers to speculatively prerender or prefetch pages to achieve near-instant loads based on user interaction.
 
@@ -114,8 +116,10 @@ This module is inspired by the WordPress Speculative Loading plugin.
 
 ---
 
-## Related DXPR Modules
+## Related Modules
 
-- [DXPR Theme](https://www.drupal.org/project/dxpr_theme): Premium responsive Drupal theme with performance optimizations
-- [DXPR Builder](https://www.drupal.org/project/dxpr_builder): AI-powered drag-and-drop page builder for Drupal
-- [Analyze Broken Links](https://www.drupal.org/project/analyze_broken_links): Detect and fix broken links across your Drupal site
+- [DXPR Theme](https://www.drupal.org/project/dxpr_theme) - Premium responsive Drupal theme with performance optimizations
+- [DXPR Builder](https://www.drupal.org/project/dxpr_builder) - AI-powered drag-and-drop page builder for Drupal
+- [Analyze Broken Links](https://www.drupal.org/project/analyze_broken_links) - Detect and fix broken links across your Drupal site
+- [Simple Sitemap](https://www.drupal.org/project/simple_sitemap) - XML sitemap generation for Drupal
+- [Google Tag](https://www.drupal.org/project/google_tag) - Google Tag Manager integration for Drupal
