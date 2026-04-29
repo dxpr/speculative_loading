@@ -1,4 +1,8 @@
-# Speculative Loading
+> Part of [DXPR CMS](https://dxpr.com/c/marketing-cms): The AI-Powered Drupal CMS
+>
+> [Documentation](https://dxpr.com/docs) | [Try Free](https://dxpr.com/try) | [dxpr.com](https://dxpr.com)
+
+# Speculative Loading: Near-Instant Drupal Page Navigation with Prefetch and Prerender
 
 Enables browsers to speculatively prerender or prefetch pages to achieve near-instant loads based on user interaction.
 
@@ -106,4 +110,12 @@ For continuous integration, you can add these commands to your CI workflow:
 
 ## Credits
 
-This module is inspired by the WordPress Speculative Loading plugin. 
+This module is inspired by the WordPress Speculative Loading plugin.
+
+---
+
+## Related DXPR Modules
+
+- [DXPR Theme](https://www.drupal.org/project/dxpr_theme): Premium responsive Drupal theme with performance optimizations
+- [DXPR Builder](https://www.drupal.org/project/dxpr_builder): AI-powered drag-and-drop page builder for Drupal
+- [Analyze Broken Links](https://www.drupal.org/project/analyze_broken_links): Detect and fix broken links across your Drupal site
