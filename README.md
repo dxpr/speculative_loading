@@ -118,8 +118,9 @@ This module is inspired by the WordPress Speculative Loading plugin.
 
 ## Related Modules
 
-- [DXPR Theme](https://www.drupal.org/project/dxpr_theme) - Premium responsive Drupal theme with performance optimizations
-- [DXPR Builder](https://www.drupal.org/project/dxpr_builder) - AI-powered drag-and-drop page builder for Drupal
-- [Analyze Broken Links](https://www.drupal.org/project/analyze_broken_links) - Detect and fix broken links across your Drupal site
-- [Simple Sitemap](https://www.drupal.org/project/simple_sitemap) - XML sitemap generation for Drupal
-- [Google Tag](https://www.drupal.org/project/google_tag) - Google Tag Manager integration for Drupal
+Modules that complement Speculative Loading for Drupal performance:
+
+- [BigPipe](https://www.drupal.org/docs/core-modules-and-themes/core-modules/bigpipe) - Drupal core module for progressive page rendering; works alongside Speculative Loading to reduce both initial and subsequent page load times
+- [Internal Page Cache](https://www.drupal.org/docs/administering-a-drupal-site/internal-page-cache) - Drupal core caching for anonymous users; caches the pages that Speculative Loading prerenders
+- [DXPR Theme](https://www.drupal.org/project/dxpr_theme) - Responsive Drupal theme with built-in performance optimizations
+- [DXPR Builder](https://www.drupal.org/project/dxpr_builder) - Drag-and-drop page builder for Drupal

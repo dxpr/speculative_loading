@@ -31,8 +31,11 @@ After installing the module, it works immediately with default settings. To cust
 No additional setup is required as the module automatically adds the necessary markup to your pages.
 
 <h3 id="module-project--recommended-libraries">Recommended modules/libraries</h3>
-While not required, the following modules complement Speculative Loading:
-- BigPipe: For progressive page rendering
+While not required, these core modules complement Speculative Loading:
+<ul>
+<li><strong>BigPipe</strong> - Progressive page rendering for the initial load; Speculative Loading handles subsequent navigations</li>
+<li><strong>Internal Page Cache</strong> - Caches full pages for anonymous users, making prerendered pages even faster to serve</li>
+</ul>
 
 <h3 id="module-project--support">Supporting this Module</h3>
 This module is maintained by DXPR. If you find it valuable, consider checking out our free page builder (with paid features for large websites):
@@ -49,10 +52,11 @@ The Speculation Rules API is supported in modern Chromium-based browsers (Chrome
 <strong>Wider browser support is underway:</strong> Firefox is actively working on implementing the Speculation Rules API. You can track their progress here: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1969396">Firefox Bug #1969396</a>
 
 <h3>Related Modules</h3>
+<p>Modules that complement Speculative Loading for Drupal performance:</p>
 <ul>
-<li><a href="https://www.drupal.org/project/dxpr_theme">DXPR Theme</a> - Premium responsive Drupal theme with performance optimizations</li>
-<li><a href="https://www.drupal.org/project/dxpr_builder">DXPR Builder</a> - AI-powered drag-and-drop page builder for Drupal</li>
-<li><a href="https://www.drupal.org/project/analyze_broken_links">Analyze Broken Links</a> - Detect and fix broken links across your Drupal site</li>
-<li><a href="https://www.drupal.org/project/simple_sitemap">Simple Sitemap</a> - XML sitemap generation for Drupal</li>
-<li><a href="https://www.drupal.org/project/google_tag">Google Tag</a> - Google Tag Manager integration for Drupal</li>
+<li><a href="https://www.drupal.org/docs/core-modules-and-themes/core-modules/bigpipe">BigPipe</a> - Drupal core module for progressive page rendering; works alongside Speculative Loading to reduce both initial and subsequent page load times</li>
+<li><a href="https://www.drupal.org/docs/administering-a-drupal-site/internal-page-cache">Internal Page Cache</a> - Drupal core caching for anonymous users; caches the pages that Speculative Loading prerenders</li>
+<li><a href="https://www.drupal.org/project/dxpr_theme">DXPR Theme</a> - Responsive Drupal theme with built-in performance optimizations</li>
+<li><a href="https://www.drupal.org/project/dxpr_builder">DXPR Builder</a> - Drag-and-drop page builder for Drupal</li>
 </ul>
+<p>Speculative Loading is included in <a href="https://dxpr.com/c/marketing-cms">DXPR CMS</a>, a Drupal distribution focused on performance and marketing team productivity.</p>
