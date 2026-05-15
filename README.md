@@ -1,8 +1,8 @@
 > **Speculative Loading** enables near-instant page navigation on Drupal sites by implementing the browser Speculation Rules API for intelligent prefetching and prerendering. Maintained by [DXPR](https://dxpr.com).
 >
-> [Getting Started](https://dxpr.com/c/getting-started) |
+> [Getting Started](https://dxpr.com/c/marketing-cms) |
 > [Pricing](https://dxpr.com/pricing) |
-> [Try Free Demo](https://dxpr.com/try)
+> [Try Free Demo](https://try.dxpr.com)
 
 # Speculative Loading - Near-Instant Drupal Page Navigation with Prefetch and Prerender
 
