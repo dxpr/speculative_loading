@@ -11,24 +11,30 @@
   <li>You want performance improvements that work automatically with no ongoing maintenance</li>
 </ul>
 
+<p><a href="/files/project-images/screenshot-1788200629967-0.jpg"><img src="/files/project-images/screenshot-1788200629967-0.jpg" alt="Speculative Loading settings page showing Speculation Mode (Prefetch/Prerender) and Eagerness level (Conservative, Moderate, Eager) configuration" /></a></p>
+
 <h3 id="module-project--features">Features</h3>
-- Implements the modern Speculation Rules API to improve website performance
-- Supports both prefetch (lightweight) and prerender (full-page) modes
-- Configurable eagerness levels (Conservative, Moderate, or Eager) to balance performance and resource usage
-- No-code required: works automatically on standard Drupal frontend pages
-- "No-prerender" CSS class can be added to exclude specific links
-- Hook API allows programmatic exclusion of URL patterns
-- Plugin system for extending functionality with custom rules
+<ul>
+  <li>Implements the modern Speculation Rules API to improve website performance</li>
+  <li>Supports both prefetch (lightweight) and prerender (full-page) modes</li>
+  <li>Configurable eagerness levels (Conservative, Moderate, or Eager) to balance performance and resource usage</li>
+  <li>No code required: works automatically on standard Drupal frontend pages</li>
+  <li>"No-prerender" CSS class can be added to exclude specific links</li>
+  <li>Hook API allows programmatic exclusion of URL patterns</li>
+  <li>Plugin system for extending functionality with custom rules</li>
+</ul>
 
 <h3 id="module-project--post-installation">Post-Installation</h3>
-After installing the module, it works immediately with default settings. To customize:
+<p>After installing the module, it works immediately with default settings. To customise:</p>
+<ol>
+  <li>Navigate to "Configuration" &gt; "Development" &gt; "Performance" &gt; "Speculative Loading"</li>
+  <li>Choose between "Prefetch" or "Prerender" mode (prerendering provides faster experiences but may affect interactive content)</li>
+  <li>Select your preferred eagerness level</li>
+  <li>Save your configuration</li>
+</ol>
+<p>No additional setup is required as the module automatically adds the necessary markup to your pages.</p>
 
-1. Navigate to "Configuration" > "Development" > "Performance" > "Speculative Loading"
-2. Choose between "Prefetch" or "Prerender" mode (prerendering provides faster experiences but may affect interactive content)
-3. Select your preferred eagerness level
-4. Save your configuration
-
-No additional setup is required as the module automatically adds the necessary markup to your pages.
+<p><a href="/files/speculative-loading-settings.jpg"><img src="/files/speculative-loading-settings.jpg" alt="Speculative Loading detailed settings showing speculation mode toggle between Prefetch and Prerender with eagerness level options" /></a></p>
 
 <h3 id="module-project--recommended-libraries">Recommended modules/libraries</h3>
 While not required, these core modules complement Speculative Loading:
@@ -46,10 +52,33 @@ This module is maintained by DXPR. If you find it valuable, consider checking ou
 - <a href="https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API">Speculation Rules API on MDN</a>
 - <a href="https://developer.chrome.com/docs/web-platform/prerender-pages">Chrome's documentation on prerendering</a>
 
+<p>The module generates speculation rules as a JSON snippet injected into each page, instructing the browser which links to prefetch or prerender:</p>
+
+<p><a href="/files/speculative-loading-source.jpg"><img src="/files/speculative-loading-source.jpg" alt="Generated speculation rules JSON output showing the prefetch configuration with eagerness and URL matching rules added to the page source" /></a></p>
+
 <h3 id="module-project--browser-support">Browser Support</h3>
 The Speculation Rules API is supported in modern Chromium-based browsers (Chrome, Edge, Opera). Other browsers will gracefully ignore the functionality with no negative effects.
 
 <strong>Wider browser support is underway:</strong> Firefox is actively working on implementing the Speculation Rules API. You can track their progress here: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1969396">Firefox Bug #1969396</a>
+
+<h2>FAQ</h2>
+
+<dl>
+  <dt>Which browsers support the Speculation Rules API?</dt>
+  <dd>
+    <p>Chromium-based browsers (Chrome, Edge, Opera) fully support the Speculation Rules API. Firefox is actively implementing support (tracked in Bug #1969396). Browsers that do not support the API simply ignore the speculation rules with no negative effects on functionality or performance. The module is safe to enable on any site.</p>
+  </dd>
+
+  <dt>What is the difference between prefetch and prerender mode?</dt>
+  <dd>
+    <p>Prefetch downloads the page's resources (HTML, CSS, JavaScript) in advance but does not execute them. Prerender goes further and fully loads and renders the page in a hidden tab, making navigation appear instant. Prerender provides faster experiences but uses more bandwidth and may affect pages with interactive content or analytics tracking.</p>
+  </dd>
+
+  <dt>Does Speculative Loading increase server load?</dt>
+  <dd>
+    <p>The processing happens entirely in the visitor's browser; the module only adds a small JSON snippet to each page telling the browser what to preload. Server load depends on how aggressively browsers prefetch pages and how many visitors your site has. The eagerness setting (Conservative, Moderate, or Eager) controls how many pages browsers preload.</p>
+  </dd>
+</dl>
 
 <h3>Related Modules</h3>
 <p>Modules that complement Speculative Loading for Drupal performance:</p>
