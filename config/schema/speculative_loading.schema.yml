@@ -2,9 +2,12 @@ speculative_loading.settings:
   type: config_object
   label: 'Speculative Loading settings'
   mapping:
+    enabled:
+      type: boolean
+      label: 'Enable speculative loading'
     mode:
       type: string
       label: 'Speculation Mode'
     eagerness:
       type: string
-      label: 'Eagerness' 
+      label: 'Eagerness'

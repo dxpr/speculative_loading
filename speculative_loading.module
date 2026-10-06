@@ -5,6 +5,7 @@
  * Provides speculation rules functionality.
  */
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -21,17 +22,46 @@ function speculative_loading_help($route_name, RouteMatchInterface $route_match)
  * Implements hook_page_attachments().
  */
 function speculative_loading_page_attachments(array &$attachments) {
+  // The output only depends on module configuration, so tag every page with
+  // it. This runs before the early returns so that enabling, disabling or
+  // reconfiguring the module invalidates Internal Page Cache and Dynamic
+  // Page Cache entries. No cache contexts are needed: the rules are identical
+  // for every user, and the administration route skip follows the route,
+  // which page caches already vary by.
+  $cacheability = new CacheableMetadata();
+  $cacheability->addCacheTags(['config:speculative_loading.settings']);
+  $cacheability->applyTo($attachments);
+
+  $config = \Drupal::config('speculative_loading.settings');
+  $enabled = $config->get('enabled');
+  // Beta releases had no 'enabled' key and were always active.
+  if ($enabled === NULL) {
+    $enabled = TRUE;
+  }
+  if (!$enabled) {
+    return;
+  }
+
+  // Speculation rules target frontend navigation only.
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
   // Get speculation rules.
   /** @var \Drupal\speculative_loading\Plugin\SpeculationRulesManagerInterface $manager */
   $manager = \Drupal::service('plugin.manager.speculation_rules');
   $rules = $manager->getSpeculationRules();
+  if (empty($rules)) {
+    return;
+  }
 
-  // Add the speculation rules as inline JavaScript.
+  // Add the speculation rules as compact inline JSON.
+  $json = json_encode($rules, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
   $attachments['#attached']['html_head'][] = [
     [
       '#type' => 'html_tag',
       '#tag' => 'script',
-      '#value' => json_encode($rules),
+      '#value' => $json,
       '#attributes' => [
         'type' => 'speculationrules',
       ],

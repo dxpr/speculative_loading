@@ -19,15 +19,18 @@
   <li>Supports both prefetch (lightweight) and prerender (full-page) modes</li>
   <li>Configurable eagerness levels (Conservative, Moderate, or Eager) to balance performance and resource usage</li>
   <li>No code required: works automatically on standard Drupal frontend pages</li>
+  <li>Frontend pages only: administration pages are skipped automatically</li>
+  <li>Enable or disable output without uninstalling the module</li>
   <li>"No-prerender" CSS class can be added to exclude specific links</li>
-  <li>Hook API allows programmatic exclusion of URL patterns</li>
-  <li>Plugin system for extending functionality with custom rules</li>
+  <li>Hook API allows adding or removing excluded URL patterns</li>
+  <li>Plugin system for extending functionality with custom rules and exclusions</li>
 </ul>
 
 <h3 id="module-project--post-installation">Post-Installation</h3>
 <p>After installing the module, it works immediately with default settings. To customise:</p>
 <ol>
-  <li>Navigate to "Configuration" &gt; "Development" &gt; "Performance" &gt; "Speculative Loading"</li>
+  <li>Navigate to "Configuration" &gt; "Development" &gt; "Performance" and open the "Speculative Loading" tab</li>
+  <li>Keep "Enable speculative loading" checked, or uncheck it to stop adding rules without uninstalling</li>
   <li>Choose between "Prefetch" or "Prerender" mode (prerendering provides faster experiences but may affect interactive content)</li>
   <li>Select your preferred eagerness level</li>
   <li>Save your configuration</li>
@@ -45,12 +48,16 @@ While not required, these core modules complement Speculative Loading:
 
 <h3 id="module-project--support">Supporting this Module</h3>
 This module is maintained by DXPR. If you find it valuable, consider checking out our free page builder (with paid features for large websites):
-- https://www.drupal.org/project/dxpr_builder
+<ul>
+<li><a href="https://www.drupal.org/project/dxpr_builder">DXPR Builder</a></li>
+</ul>
 
 <h3 id="module-project--community-documentation">Community Documentation</h3>
 
-- <a href="https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API">Speculation Rules API on MDN</a>
-- <a href="https://developer.chrome.com/docs/web-platform/prerender-pages">Chrome's documentation on prerendering</a>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API">Speculation Rules API on MDN</a></li>
+<li><a href="https://developer.chrome.com/docs/web-platform/prerender-pages">Chrome's documentation on prerendering</a></li>
+</ul>
 
 <p>The module generates speculation rules as a JSON snippet injected into each page, instructing the browser which links to prefetch or prerender:</p>
 
@@ -77,6 +84,16 @@ The Speculation Rules API is supported in modern Chromium-based browsers (Chrome
   <dt>Does Speculative Loading increase server load?</dt>
   <dd>
     <p>The processing happens entirely in the visitor's browser; the module only adds a small JSON snippet to each page telling the browser what to preload. Server load depends on how aggressively browsers prefetch pages and how many visitors your site has. The eagerness setting (Conservative, Moderate, or Eager) controls how many pages browsers preload.</p>
+  </dd>
+
+  <dt>Are administration pages affected?</dt>
+  <dd>
+    <p>No. Speculative Loading adds speculation rules to frontend pages only. Administration pages are skipped automatically, and administrative paths, user account pages and other sensitive URLs stay excluded from prefetching and prerendering, so editorial and administrative work is never affected.</p>
+  </dd>
+
+  <dt>Which URLs are excluded by default?</dt>
+  <dd>
+    <p>Administrative paths, user login, logout, registration, password and edit pages, password reset and confirmation paths, content editing paths, URLs with query strings, and file, module and theme assets. Use the documented hook to add or remove excluded site paths, or add the "no-prerender" class to individual links.</p>
   </dd>
 </dl>
 

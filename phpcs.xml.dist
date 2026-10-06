@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="speculative_loading">
   <description>PHP CodeSniffer configuration for Speculative Loading module.</description>
-  
-  <!-- Set standards -->
-  <rule ref="Drupal"/>
+
+  <rule ref="Drupal">
+    <!-- Drupal.org packages add info keys automatically -->
+    <exclude name="Drupal.InfoFiles.AutoAddedKeys"/>
+  </rule>
   <rule ref="DrupalPractice"/>
-  
-  <!-- Check all files in the module -->
+
+  <!-- Check all files in the module. -->
   <file>.</file>
-  
-  <!-- Exclude third party code and generated files -->
+
+  <!-- Exclude third party code and generated files. -->
   <exclude-pattern>*/vendor/*</exclude-pattern>
   <exclude-pattern>*/node_modules/*</exclude-pattern>
   <exclude-pattern>*/dist/*</exclude-pattern>
-  
-  <!-- Ignore missing file documentation for certain files -->
+  <exclude-pattern>*/.git/*</exclude-pattern>
+  <exclude-pattern>*/.github/*</exclude-pattern>
+
+  <!-- Ignore missing file documentation for certain files. -->
   <rule ref="Drupal.Commenting.FileComment.Missing">
     <exclude-pattern>*.md</exclude-pattern>
     <exclude-pattern>*.json</exclude-pattern>
     <exclude-pattern>*.yml</exclude-pattern>
   </rule>
-  
-  <!-- Set installed paths for standards -->
-  <config name="installed_paths" value="vendor/drupal/coder/coder_sniffer,vendor/phpcompatibility/php-compatibility"/>
-  
-  <!-- Set default standard -->
-  <arg name="standard" value="Drupal,DrupalPractice"/>
-  
-  <!-- Show progress -->
+
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme,info,txt,md,yml"/>
   <arg value="p"/>
   <arg name="colors"/>
-  
-  <!-- Check for PHP cross-version compatibility -->
+
+  <config name="drupal_core_version" value="11"/>
+
+  <!-- Check for PHP cross-version compatibility. -->
   <rule ref="PHPCompatibility"/>
   <config name="testVersion" value="8.1-"/>
 
-  <!-- Specific rules -->
   <rule ref="Drupal.Commenting.FunctionComment.ParamTypeSpaces">
     <severity>0</severity>
   </rule>
-</ruleset> 
+</ruleset>

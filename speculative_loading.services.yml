@@ -5,4 +5,4 @@ services:
   
   plugin.manager.speculation_rules:
     class: Drupal\speculative_loading\Plugin\SpeculationRulesManager
-    arguments: ['@speculative_loading.url_pattern_prefixer', '@config.factory', '@current_user', '@container.namespaces', '@cache.discovery', '@module_handler'] 
+    arguments: ['@speculative_loading.url_pattern_prefixer', '@config.factory', '@container.namespaces', '@cache.discovery', '@module_handler']

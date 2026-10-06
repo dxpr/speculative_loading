@@ -6,13 +6,26 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\speculative_loading\UrlPattern\UrlPatternPrefixer;
 
 /**
  * Manages Speculation Rules plugins.
+ *
+ * Collects URL exclusions and extra rules from every SpeculationRules plugin,
+ * merges them with the built-in denylist, and exposes the result through
+ * ::getSpeculationRules().
  */
 class SpeculationRulesManager extends DefaultPluginManager implements SpeculationRulesManagerInterface {
+
+  /**
+   * Valid speculation modes.
+   */
+  protected const VALID_MODES = ['prefetch', 'prerender'];
+
+  /**
+   * Valid eagerness levels.
+   */
+  protected const VALID_EAGERNESS = ['conservative', 'moderate', 'eager'];
 
   /**
    * The URL pattern prefixer service.
@@ -29,21 +42,12 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
   protected $configFactory;
 
   /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
    * Constructs a SpeculationRulesManager object.
    *
    * @param \Drupal\speculative_loading\UrlPattern\UrlPatternPrefixer $url_pattern_prefixer
    *   The URL pattern prefixer service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
    * @param \Traversable $namespaces
    *   An object that implements \Traversable which contains the root paths
    *   keyed by the corresponding namespace to look for plugin implementations.
@@ -55,10 +59,9 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
   public function __construct(
     UrlPatternPrefixer $url_pattern_prefixer,
     ConfigFactoryInterface $config_factory,
-    AccountInterface $current_user,
     \Traversable $namespaces,
-    ?CacheBackendInterface $cache_backend = NULL,
-    ?ModuleHandlerInterface $module_handler = NULL,
+    CacheBackendInterface $cache_backend,
+    ModuleHandlerInterface $module_handler,
   ) {
     parent::__construct(
       'Plugin/SpeculationRules',
@@ -68,13 +71,9 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
       'Drupal\speculative_loading\Annotation\SpeculationRules'
     );
 
-    if ($cache_backend) {
-      $this->setCacheBackend($cache_backend, 'speculation_rules_plugins');
-    }
-
+    $this->setCacheBackend($cache_backend, 'speculation_rules_plugins');
     $this->urlPatternPrefixer = $url_pattern_prefixer;
     $this->configFactory = $config_factory;
-    $this->currentUser = $current_user;
   }
 
   /**
@@ -82,8 +81,17 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
    */
   public function getSpeculationRules(): array {
     $config = $this->configFactory->get('speculative_loading.settings');
-    $mode = $config->get('mode');
-    $eagerness = $config->get('eagerness');
+    $enabled = $config->get('enabled');
+    // Beta releases had no 'enabled' key and were always active.
+    if ($enabled === NULL) {
+      $enabled = TRUE;
+    }
+    if (!$enabled) {
+      return [];
+    }
+    $mode = $this->normalizeMode($config->get('mode'));
+    $eagerness = $this->normalizeEagerness($config->get('eagerness'));
+    $prefixer = $this->urlPatternPrefixer;
 
     // Get exclude paths for the current mode.
     $href_exclude_paths = $this->getHrefExcludePaths($mode);
@@ -96,7 +104,7 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
           'and' => [
             // Include any URLs within the same site.
             [
-              'href_matches' => $this->urlPatternPrefixer->prefixPathPattern('/*'),
+              'href_matches' => $prefixer->prefixPathPattern('/*'),
             ],
             // Exclude specific paths.
             [
@@ -125,6 +133,15 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
       ];
     }
 
+    // Append extra rules contributed by plugins.
+    foreach ($this->getDefinitions() as $definition) {
+      /** @var \Drupal\speculative_loading\Plugin\SpeculationRulesInterface $plugin */
+      $plugin = $this->createInstance($definition['id']);
+      foreach ($plugin->getRules($mode) as $rule) {
+        $rules[] = $rule;
+      }
+    }
+
     return [$mode => $rules];
   }
 
@@ -132,40 +149,85 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
    * {@inheritdoc}
    */
   public function getHrefExcludePaths(string $mode): array {
-    // Define base exclude paths.
-    $base_href_exclude_paths = [
-      $this->urlPatternPrefixer->prefixPathPattern('/admin/*', 'site'),
-      $this->urlPatternPrefixer->prefixPathPattern('/user/login*', 'site'),
-      $this->urlPatternPrefixer->prefixPathPattern('/user/logout*', 'site'),
-      $this->urlPatternPrefixer->prefixPathPattern('/user/register*', 'site'),
-      $this->urlPatternPrefixer->prefixPathPattern('/*', 'files'),
-      $this->urlPatternPrefixer->prefixPathPattern('/*', 'modules'),
-      $this->urlPatternPrefixer->prefixPathPattern('/*', 'themes'),
+    $mode = $this->normalizeMode($mode);
+    $prefixer = $this->urlPatternPrefixer;
+
+    // Raw site-relative paths, prefixed after the alter hook. Start with the
+    // built-in denylist for interactive or sensitive site paths.
+    $site_paths = [
+      '/admin/*',
+      '/user/login*',
+      '/user/logout*',
+      '/user/register*',
+      '/user/password*',
     ];
 
-    // Always exclude URLs with query parameters.
-    $base_href_exclude_paths[] = $this->urlPatternPrefixer->prefixPathPattern('/*\\?(.+)', 'site');
+    // Merge exclusions contributed by plugins.
+    foreach ($this->getDefinitions() as $definition) {
+      /** @var \Drupal\speculative_loading\Plugin\SpeculationRulesInterface $plugin */
+      $plugin = $this->createInstance($definition['id']);
+      $site_paths = array_merge($site_paths, $plugin->getExcludePaths($mode));
+    }
 
-    // Let other modules alter the exclude paths.
-    $href_exclude_paths = [];
-    $this->moduleHandler->alter('speculation_rules_href_exclude_paths', $href_exclude_paths, $mode);
-
-    // Combine and normalize the paths.
-    $all_paths = array_values(
-      array_unique(
-        array_merge(
-          $base_href_exclude_paths,
-          array_map(
-            function (string $path) {
-              return $this->urlPatternPrefixer->prefixPathPattern($path);
-            },
-            $href_exclude_paths
-          )
-        )
-      )
+    // Let other modules add or remove site paths.
+    $this->moduleHandler->alter(
+      'speculation_rules_href_exclude_paths',
+      $site_paths,
+      $mode
     );
+    $site_paths = array_values(array_unique($site_paths));
 
-    return $all_paths;
+    // Prefix the alterable site paths.
+    $exclude_paths = [];
+    foreach ($site_paths as $path) {
+      $exclude_paths[] = $prefixer->prefixPathPattern($path, 'site');
+    }
+
+    // Mandatory exclusions that hooks cannot remove: URLs with query
+    // parameters, plus file, module and theme assets.
+    $mandatory = [
+      ['/*\\?(.+)', 'site'],
+      ['/*', 'files'],
+      ['/*', 'modules'],
+      ['/*', 'themes'],
+    ];
+    foreach ($mandatory as [$pattern, $context]) {
+      $exclude_paths[] = $prefixer->prefixPathPattern($pattern, $context);
+    }
+
+    return array_values(array_unique($exclude_paths));
+  }
+
+  /**
+   * Normalizes a configured speculation mode.
+   *
+   * @param mixed $mode
+   *   The configured value.
+   *
+   * @return string
+   *   A valid mode, defaulting to 'prerender'.
+   */
+  protected function normalizeMode($mode): string {
+    if (!in_array($mode, self::VALID_MODES, TRUE)) {
+      return 'prerender';
+    }
+    return $mode;
+  }
+
+  /**
+   * Normalizes a configured eagerness level.
+   *
+   * @param mixed $eagerness
+   *   The configured value.
+   *
+   * @return string
+   *   A valid eagerness level, defaulting to 'moderate'.
+   */
+  protected function normalizeEagerness($eagerness): string {
+    if (!in_array($eagerness, self::VALID_EAGERNESS, TRUE)) {
+      return 'moderate';
+    }
+    return $eagerness;
   }
 
 }

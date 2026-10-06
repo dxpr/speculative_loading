@@ -12,3 +12,13 @@ function speculative_loading_uninstall() {
   // Remove configuration.
   \Drupal::configFactory()->getEditable('speculative_loading.settings')->delete();
 }
+
+/**
+ * Enable speculative loading for sites that installed a beta release.
+ */
+function speculative_loading_update_10001() {
+  $config = \Drupal::configFactory()->getEditable('speculative_loading.settings');
+  if ($config->get('enabled') === NULL) {
+    $config->set('enabled', TRUE)->save(TRUE);
+  }
+}

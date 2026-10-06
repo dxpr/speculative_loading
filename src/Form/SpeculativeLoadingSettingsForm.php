@@ -32,9 +32,21 @@ class SpeculativeLoadingSettingsForm extends ConfigFormBase {
 
     $form['description'] = [
       '#type' => 'markup',
-      '#markup' => $this->t('This section allows you to control how URLs that your users navigate to are speculatively loaded to improve performance.'),
+      '#markup' => $this->t('This section allows you to control how URLs that your users navigate to are speculatively loaded to improve performance. Rules are added to frontend pages only, never to administration pages.'),
       '#prefix' => '<p>',
       '#suffix' => '</p>',
+    ];
+
+    // Beta releases had no 'enabled' key and were always active.
+    $enabled = $config->get('enabled');
+    if ($enabled === NULL) {
+      $enabled = TRUE;
+    }
+    $form['enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable speculative loading'),
+      '#description' => $this->t('When disabled, no speculation rules are added to pages.'),
+      '#default_value' => $enabled,
     ];
 
     // Mode options.
@@ -72,6 +84,7 @@ class SpeculativeLoadingSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('speculative_loading.settings')
+      ->set('enabled', (bool) $form_state->getValue('enabled'))
       ->set('mode', $form_state->getValue('mode'))
       ->set('eagerness', $form_state->getValue('eagerness'))
       ->save();
