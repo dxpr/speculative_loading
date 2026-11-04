@@ -15,7 +15,8 @@ fi
 
 # if drupal directory exists, don't re-create
 if [ ! -d "/drupal" ]; then
-  composer create-project drupal/recommended-project:$DRUPAL_RECOMMENDED_PROJECT drupal --no-interaction --stability=dev
+  # --no-dev keeps drupal/core-dev's PHPStan 2 extensions out of the site.
+  composer create-project drupal/recommended-project:$DRUPAL_RECOMMENDED_PROJECT drupal --no-interaction --stability=dev --no-dev
 fi
 
 cd drupal
