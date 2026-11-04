@@ -1,6 +1,8 @@
 name: Review
 
-on: [pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
 
 env:
   TARGET_DRUPAL_CORE_VERSION: 11
