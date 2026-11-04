@@ -20,7 +20,6 @@ phpcs -i
 
 # Configure PHPCS settings
 phpcs --config-set colors 1
-phpcs --config-set ignore_warnings_on_exit 1
 phpcs --config-set drupal_core_version 11
 
 phpcs --config-show
