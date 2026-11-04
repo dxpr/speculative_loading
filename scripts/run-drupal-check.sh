@@ -34,4 +34,4 @@ mkdir -p "$DRUPAL_CHECK_DIR"
 composer --working-dir="$DRUPAL_CHECK_DIR" init --name=dxpr/drupal-check-runner --no-interaction
 composer --working-dir="$DRUPAL_CHECK_DIR" require mglaman/drupal-check --no-interaction
 
-"$DRUPAL_CHECK_DIR/vendor/bin/drupal-check" --drupal-root . -ad "web/modules/contrib/$MODULE_NAME"
+"$DRUPAL_CHECK_DIR/vendor/bin/drupal-check" --drupal-root . -ad --memory-limit=-1 "web/modules/contrib/$MODULE_NAME"
