@@ -21,7 +21,7 @@ fi
 cd drupal
 mkdir -p web/modules/contrib/
 
-MODULE_NAME=$(basename $(dirname $(dirname "$0")))
+MODULE_NAME=speculative_loading
 if [ ! -L "web/modules/contrib/$MODULE_NAME" ]; then
   ln -s /src "web/modules/contrib/$MODULE_NAME"
 fi
