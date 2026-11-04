@@ -26,5 +26,5 @@ if [ ! -L "web/modules/contrib/$MODULE_NAME" ]; then
   ln -s /src "web/modules/contrib/$MODULE_NAME"
 fi
 
-composer require mglaman/drupal-check --dev
+composer require mglaman/drupal-check --dev --with-all-dependencies --no-interaction
 ./vendor/bin/drupal-check --drupal-root . -ad "web/modules/contrib/$MODULE_NAME"
