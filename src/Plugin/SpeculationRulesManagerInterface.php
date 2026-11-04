@@ -12,8 +12,8 @@ interface SpeculationRulesManagerInterface extends PluginManagerInterface {
   /**
    * Gets the speculation rules based on current configuration.
    *
-   * @return array
-   *   The array of speculation rules.
+   * @return array<string, list<array<string, mixed>>>
+   *   The speculation rules, keyed by speculation mode.
    */
   public function getSpeculationRules(): array;
 
@@ -23,7 +23,7 @@ interface SpeculationRulesManagerInterface extends PluginManagerInterface {
    * @param string $mode
    *   The speculation mode, either 'prefetch' or 'prerender'.
    *
-   * @return array
+   * @return list<string>
    *   The array of paths to exclude.
    */
   public function getHrefExcludePaths(string $mode): array;

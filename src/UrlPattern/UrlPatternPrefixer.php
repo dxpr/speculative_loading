@@ -14,7 +14,7 @@ class UrlPatternPrefixer {
   /**
    * Map of context string to base path pairs.
    *
-   * @var array
+   * @var array<string, string>
    */
   protected $contexts;
 
@@ -48,7 +48,7 @@ class UrlPatternPrefixer {
    *   The module handler.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
-   * @param array $contexts
+   * @param array<string, string> $contexts
    *   Optional contexts to use instead of the defaults.
    */
   public function __construct(
@@ -114,7 +114,7 @@ class UrlPatternPrefixer {
   /**
    * Gets the default contexts for path prefixing.
    *
-   * @return array
+   * @return array<string, string>
    *   Map of context string to base path pairs.
    */
   protected function getDefaultContexts(): array {

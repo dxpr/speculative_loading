@@ -24,7 +24,7 @@
  * current mode. URLs with query strings and file, module and theme assets
  * are always excluded and cannot be removed through this hook.
  *
- * @param array $exclude_paths
+ * @param list<string> $exclude_paths
  *   An array of site-relative path patterns excluded from speculation rules.
  * @param string $mode
  *   The speculation mode, either 'prefetch' or 'prerender'.
@@ -32,7 +32,7 @@
 function hook_speculation_rules_href_exclude_paths_alter(
   array &$exclude_paths,
   string $mode,
-) {
+): void {
   // Exclude cart pages from prerendering.
   if ($mode === 'prerender') {
     $exclude_paths[] = '/cart/*';

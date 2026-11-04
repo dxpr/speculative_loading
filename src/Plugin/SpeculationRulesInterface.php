@@ -19,7 +19,7 @@ interface SpeculationRulesInterface extends PluginInspectionInterface {
    * @param string $mode
    *   The speculation mode, either 'prefetch' or 'prerender'.
    *
-   * @return array
+   * @return list<array<string, mixed>>
    *   A list of rule arrays to append. Return an empty array to add nothing.
    */
   public function getRules(string $mode): array;
@@ -34,7 +34,7 @@ interface SpeculationRulesInterface extends PluginInspectionInterface {
    * @param string $mode
    *   The speculation mode, either 'prefetch' or 'prerender'.
    *
-   * @return array
+   * @return list<string>
    *   A list of site-relative path patterns to exclude.
    */
   public function getExcludePaths(string $mode): array;
