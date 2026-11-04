@@ -18,6 +18,9 @@ class DefaultSpeculationRules extends PluginBase implements SpeculationRulesInte
 
   /**
    * {@inheritdoc}
+   *
+   * @return list<array<string, mixed>>
+   *   The rule arrays to append.
    */
   public function getRules(string $mode): array {
     // The default plugin doesn't add any rules beyond those in the manager.
@@ -26,6 +29,9 @@ class DefaultSpeculationRules extends PluginBase implements SpeculationRulesInte
 
   /**
    * {@inheritdoc}
+   *
+   * @return list<string>
+   *   The site-relative path patterns to exclude.
    */
   public function getExcludePaths(string $mode): array {
     // List of default paths to exclude from speculation loading.

@@ -11,17 +11,21 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function speculative_loading_help($route_name, RouteMatchInterface $route_match) {
+function speculative_loading_help(string $route_name, RouteMatchInterface $route_match): ?string {
   switch ($route_name) {
     case 'help.page.speculative_loading':
       return '<p>' . t('This module adds support for the Speculation Rules API, which allows defining rules by which certain URLs are dynamically prefetched or prerendered.') . '</p>';
   }
+
+  return NULL;
 }
 
 /**
  * Implements hook_page_attachments().
+ *
+ * @phpstan-param array<string, mixed> $attachments
  */
-function speculative_loading_page_attachments(array &$attachments) {
+function speculative_loading_page_attachments(array &$attachments): void {
   // The output only depends on module configuration, so tag every page with
   // it. This runs before the early returns so that enabling, disabling or
   // reconfiguring the module invalidates Internal Page Cache and Dynamic

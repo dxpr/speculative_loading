@@ -48,7 +48,7 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
    *   The URL pattern prefixer service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Traversable $namespaces
+   * @param \Traversable<string, string> $namespaces
    *   An object that implements \Traversable which contains the root paths
    *   keyed by the corresponding namespace to look for plugin implementations.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
@@ -71,13 +71,16 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
       'Drupal\speculative_loading\Annotation\SpeculationRules'
     );
 
-    $this->setCacheBackend($cache_backend, 'speculation_rules_plugins');
+    $this->setCacheBackend($cache_backend, 'speculation_rules_plugins', ['speculation_rules_plugins']);
     $this->urlPatternPrefixer = $url_pattern_prefixer;
     $this->configFactory = $config_factory;
   }
 
   /**
    * {@inheritdoc}
+   *
+   * @return array<string, list<array<string, mixed>>>
+   *   The speculation rules, keyed by speculation mode.
    */
   public function getSpeculationRules(): array {
     $config = $this->configFactory->get('speculative_loading.settings');
@@ -147,6 +150,9 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
 
   /**
    * {@inheritdoc}
+   *
+   * @return list<string>
+   *   The paths to exclude from speculation rules.
    */
   public function getHrefExcludePaths(string $mode): array {
     $mode = $this->normalizeMode($mode);

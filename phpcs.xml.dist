@@ -34,8 +34,4 @@
   <!-- Check for PHP cross-version compatibility. -->
   <rule ref="PHPCompatibility"/>
   <config name="testVersion" value="8.1-"/>
-
-  <rule ref="Drupal.Commenting.FunctionComment.ParamTypeSpaces">
-    <severity>0</severity>
-  </rule>
 </ruleset>
