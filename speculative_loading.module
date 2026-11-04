@@ -10,27 +10,20 @@ use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().
- *
- * @param string $route_name
- *   The route name.
- * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
- *   The current route match.
- *
- * @return string|null
- *   The help text, or NULL for other routes.
  */
 function speculative_loading_help(string $route_name, RouteMatchInterface $route_match): ?string {
   switch ($route_name) {
     case 'help.page.speculative_loading':
       return '<p>' . t('This module adds support for the Speculation Rules API, which allows defining rules by which certain URLs are dynamically prefetched or prerendered.') . '</p>';
   }
+
+  return NULL;
 }
 
 /**
  * Implements hook_page_attachments().
  *
- * @param array<string, mixed> $attachments
- *   The page attachments array.
+ * @phpstan-param array<string, mixed> $attachments
  */
 function speculative_loading_page_attachments(array &$attachments): void {
   // The output only depends on module configuration, so tag every page with
