@@ -26,5 +26,15 @@ if [ ! -L "web/modules/contrib/$MODULE_NAME" ]; then
   ln -s /src "web/modules/contrib/$MODULE_NAME"
 fi
 
-composer require mglaman/drupal-check --dev --with-all-dependencies --no-interaction
-./vendor/bin/drupal-check --drupal-root . -ad "web/modules/contrib/$MODULE_NAME"
+# drupal-check 1.x needs PHPStan 1, which clashes with the PHPStan 2 that
+# drupal/core-dev installs, so run the same level 6 rules with PHPStan.
+composer require --dev phpstan/phpstan mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules --with-all-dependencies --no-interaction
+
+cat <<EOF > phpstan.neon
+parameters:
+    paths:
+        - web/modules/contrib/$MODULE_NAME
+    level: 6
+EOF
+
+./vendor/bin/phpstan analyse --memory-limit=-1 -c phpstan.neon
