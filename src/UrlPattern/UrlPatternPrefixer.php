@@ -120,10 +120,6 @@ class UrlPatternPrefixer {
   protected function getDefaultContexts(): array {
     $base_path = $this->escapePatternString(base_path());
 
-    // Get base URLs for various path types.
-    $site_config = $this->configFactory->get('system.site');
-    $front_url = $site_config->get('page.front');
-
     // Get file paths.
     $public_path = $this->escapePatternString($this->fileUrlGenerator->generateString('public://'));
 

@@ -12,3 +12,5 @@ services:
     autowire: true
     arguments:
       - '@plugin.manager.speculation_rules'
+      - '@config.factory'
+      - '@router.admin_context'
