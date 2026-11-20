@@ -5,7 +5,7 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=8.1.0",
-        "drupal/core": "^10.3 || ^11"
+        "drupal/core": "^10.3 || ^11 || ^12"
     },
     "require-dev": {
         "drupal/coder": "^8.3",
@@ -28,4 +28,4 @@
         },
         "sort-packages": true
     }
-} 
+}

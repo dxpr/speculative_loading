@@ -2,6 +2,7 @@
 
 namespace Drupal\speculative_loading\Plugin\SpeculationRules;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\speculative_loading\Plugin\SpeculationRulesInterface;
 
@@ -14,6 +15,11 @@ use Drupal\speculative_loading\Plugin\SpeculationRulesInterface;
  *   description = @Translation("Default implementation for speculation rules.")
  * )
  */
+#[\Drupal\speculative_loading\Attribute\SpeculationRules(
+  id: "default",
+  title: new TranslatableMarkup("Default Speculation Rules"),
+  description: new TranslatableMarkup("Default implementation for speculation rules."),
+)]
 class DefaultSpeculationRules extends PluginBase implements SpeculationRulesInterface {
 
   /**

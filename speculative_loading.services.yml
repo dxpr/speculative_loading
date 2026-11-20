@@ -6,3 +6,11 @@ services:
   plugin.manager.speculation_rules:
     class: Drupal\speculative_loading\Plugin\SpeculationRulesManager
     arguments: ['@speculative_loading.url_pattern_prefixer', '@config.factory', '@container.namespaces', '@cache.discovery', '@module_handler']
+
+  Drupal\speculative_loading\Hook\SpeculativeLoadingHooks:
+    class: Drupal\speculative_loading\Hook\SpeculativeLoadingHooks
+    autowire: true
+    arguments:
+      - '@plugin.manager.speculation_rules'
+      - '@config.factory'
+      - '@router.admin_context'
