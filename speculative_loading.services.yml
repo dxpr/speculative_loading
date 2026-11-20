@@ -10,3 +10,5 @@ services:
   Drupal\speculative_loading\Hook\SpeculativeLoadingHooks:
     class: Drupal\speculative_loading\Hook\SpeculativeLoadingHooks
     autowire: true
+    arguments:
+      - '@plugin.manager.speculation_rules'

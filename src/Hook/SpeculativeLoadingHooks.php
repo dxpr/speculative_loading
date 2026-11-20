@@ -2,6 +2,8 @@
 
 namespace Drupal\speculative_loading\Hook;
 
+use Drupal\speculative_loading\Plugin\SpeculationRulesManager;
+
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Hook\Attribute\Hook;
@@ -12,6 +14,13 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class SpeculativeLoadingHooks
 {
     use StringTranslationTrait;
+
+  /**
+   * Constructs the hook service.
+   */
+  public function __construct(
+    protected SpeculationRulesManager $pluginManagerSpeculationRules,
+  ) {}
     /**
      * Implements hook_help().
      */
@@ -31,7 +40,7 @@ class SpeculativeLoadingHooks
     {
         // Get speculation rules.
         /** @var \Drupal\speculative_loading\Plugin\SpeculationRulesManagerInterface $manager */
-        $manager = \Drupal::service('plugin.manager.speculation_rules');
+        $manager = $this->pluginManagerSpeculationRules;
         $rules = $manager->getSpeculationRules();
         // Add the speculation rules as inline JavaScript.
         $attachments['#attached']['html_head'][] = [

@@ -68,6 +68,7 @@ class SpeculationRulesManager extends DefaultPluginManager implements Speculatio
       $namespaces,
       $module_handler,
       'Drupal\speculative_loading\Plugin\SpeculationRulesInterface',
+      'Drupal\speculative_loading\Attribute\SpeculationRules',
       'Drupal\speculative_loading\Annotation\SpeculationRules'
     );
 
